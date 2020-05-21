@@ -3,6 +3,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.CombineFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
@@ -31,6 +32,11 @@ public class WordCountDriver {
         //6.set MR input and output file path
         FileInputFormat.setInputPaths(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+        //optional - use CombineTextInputFormat to combine small size files into one split
+        job.setInputFormatClass(CombineFileInputFormat.class);
+        //set the max size of virtual split to 4MB
+        CombineFileInputFormat.setMaxInputSplitSize(job, 4194304);
 
         //7.submit job
         boolean result = job.waitForCompletion(true);
