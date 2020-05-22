@@ -1,5 +1,6 @@
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.CombineFileInputFormat;
@@ -8,33 +9,31 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.IOException;
 
-public class FlowCountDriver {
+public class CombineTextInputFormatDriver {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-        //1.get job instance
         Job job = Job.getInstance(new Configuration());
 
-        //2.set jar path
-        job.setJarByClass(FlowCountDriver.class);
+        job.setJarByClass(CombineTextInputFormatDriver.class);
 
-        //3.set mapper and reducer class
-        job.setMapperClass(FlowCountMapper.class);
-        job.setReducerClass(FlowCountReducer.class);
+        job.setMapperClass(CombineTextInputFormatMapper.class);
+        job.setReducerClass(CombineTextInputFormatReducer.class);
 
-        //4.set mapper output key and value class
         job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(FlowBean.class);
+        job.setMapOutputValueClass(IntWritable.class);
 
-        //5.set reducer output key and value class
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(FlowBean.class);
+        job.setOutputValueClass(IntWritable.class);
 
-        //6.set input and output file path
+        //use CombineTextInputFormat to combine small size files into one split
+        job.setInputFormatClass(CombineFileInputFormat.class);
+        //set the max size of virtual split to 4MB
+        CombineFileInputFormat.setMaxInputSplitSize(job, 4194304);
+
         FileInputFormat.setInputPaths(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
-        //7.submit job
         boolean result = job.waitForCompletion(true);
 
-        System.exit(result?0:1);
+        System.exit(result ? 0 : 1);
     }
 }

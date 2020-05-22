@@ -59,7 +59,7 @@
 <!--                    </descriptorRefs>-->
 <!--                    <archive>-->
 <!--                        <manifest>-->
-<!--                            <mainClass>WordCountDriver</mainClass>-->
+<!--                            <mainClass>FlowCountDriver</mainClass>-->
 <!--                        </manifest>-->
 <!--                    </archive>-->
 <!--                </configuration>-->
