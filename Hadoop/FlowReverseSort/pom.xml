@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>PhoneNumberPartitioner</artifactId>
+    <artifactId>FlowReverseSort</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <!--need dependency of junit4, log4j-core, hadoop-common, hadoop-client, hadoop-hdfs-->
@@ -59,7 +59,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>PhoneNumberPartitionDriver</mainClass>
+                            <mainClass>FlowReverseSortDriver</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
