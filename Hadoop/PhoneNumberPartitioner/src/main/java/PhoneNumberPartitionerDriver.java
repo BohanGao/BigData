@@ -9,10 +9,6 @@ import java.io.IOException;
 
 public class PhoneNumberPartitionerDriver {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-        args = new String[2];
-        args[0] = "/Users/bohangao/Projects/BigData/Hadoop/PhoneNumberPartitioner/test_data/in";
-        args[1] = "/Users/bohangao/Projects/BigData/Hadoop/PhoneNumberPartitioner/test_data/out";
-
         Job job = Job.getInstance(new Configuration());
 
         job.setJarByClass(PhoneNumberPartitionerDriver.class);
