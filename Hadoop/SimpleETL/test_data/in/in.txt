@@ -1,0 +1,5 @@
+www.google.com  search  CA
+www.amazon.com  e-commerce  WA
+www.facebook.com    social  CA
+unknown
+www.microsoft.com   software    WA
