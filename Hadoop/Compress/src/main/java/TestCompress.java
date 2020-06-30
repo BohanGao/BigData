@@ -23,11 +23,11 @@ public class TestCompress {
         CompressionCodec codec = (CompressionCodec) ReflectionUtils.newInstance(classCodec, new Configuration());
 
         //get output stream
-        FileOutputStream fos = new FileOutputStream(new File(filePath+codec.getDefaultExtension()));
+        FileOutputStream fos = new FileOutputStream(new File(filePath + codec.getDefaultExtension()));
         CompressionOutputStream cos = codec.createOutputStream(fos);
 
         //copy content from input stream to output stream
-        IOUtils.copyBytes(fis, cos, 1024*1024, false);
+        IOUtils.copyBytes(fis, cos, 1024 * 1024, false);
 
         //close resources
         IOUtils.closeStream(cos);
