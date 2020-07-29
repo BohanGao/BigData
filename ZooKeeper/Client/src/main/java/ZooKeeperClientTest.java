@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ZooKeeperClientTest {
     private ZooKeeper zooKeeperCli;
-    private static final String CONNECTION_STRING = "51.143.127.112:2181,52.148.148.162:2181,52.137.105.52:2181";
+    private static final String CONNECTION_STRING = "";
     private static final int SESSION_TIMEOUT = 2000;
 
     @Before
@@ -72,6 +72,36 @@ public class ZooKeeperClientTest {
         final Stat exists = zooKeeperCli.exists("clientTest", false);
         if (exists != null) {
             zooKeeperCli.delete("/clientTest", exists.getVersion());
+        }
+    }
+
+    public void circularRegister() throws KeeperException, InterruptedException {
+        final byte[] data = zooKeeperCli.getData(
+                "/clientTest",
+                p -> {
+            System.out.println("znode /clientTest data under watch.");
+            try{
+                circularRegister();//when receive the notification, register again.
+            }catch(KeeperException ke){
+                ke.printStackTrace();
+            }catch(InterruptedException ie){
+                ie.printStackTrace();
+            }
+
+        },
+                null);
+        System.out.println(new String(data));
+    }
+
+    @Test
+    public void testCircularRegister() {
+        try{
+            circularRegister();
+            Thread.sleep(Long.MAX_VALUE);//main thread sleeps to demo watch event
+        }catch(KeeperException ke){
+            ke.printStackTrace();
+        }catch(InterruptedException ie){
+            ie.printStackTrace();
         }
     }
 }
